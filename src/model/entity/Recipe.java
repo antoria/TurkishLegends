@@ -4,7 +4,7 @@ public class Recipe
 {
     private int id;
     private Ingredient bread, meat, sauce, vegetable1, vegetable2, vegetable3;
-    private double price;
+    private double price = 0.0;
 
     public Recipe(){}
 
@@ -17,7 +17,13 @@ public class Recipe
         this.vegetable1 = vegetable1;
         this.vegetable2 = vegetable2;
         this.vegetable3 = vegetable3;
-        this.price = bread.getPrice() + meat.getPrice() + sauce.getPrice() + vegetable1.getPrice() + vegetable2.getPrice() + vegetable3.getPrice();
+
+        if (bread != null) this.price += bread.getPrice();
+        if (meat != null) this.price += meat.getPrice();
+        if (sauce != null) this.price += sauce.getPrice();
+        if (vegetable1 != null) this.price += vegetable1.getPrice();
+        if (vegetable2 != null) this.price += vegetable2.getPrice();
+        if (vegetable3 != null) this.price += vegetable3.getPrice();
     }
 
     public int getId() {

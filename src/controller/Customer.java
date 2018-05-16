@@ -158,8 +158,11 @@ public class Customer extends Controller implements Initializable
 
             double totalPrice = 0;
             if(bread != null) totalPrice += bread.getPrice();
+
             if(meat != null) totalPrice += meat.getPrice();
+
             if(sauce != null) totalPrice += sauce.getPrice();
+
             if(vegetable1 != null) totalPrice += vegetable1.getPrice();
             if(vegetable2 != null) totalPrice += vegetable2.getPrice();
             if(vegetable3 != null) totalPrice += vegetable3.getPrice();
