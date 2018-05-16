@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class Customer extends Controller implements Initializable
 {
@@ -249,7 +250,11 @@ public class Customer extends Controller implements Initializable
                     dialog.setContentText("Please enter your credit card number:");
                     Optional<String> ccnumber = dialog.showAndWait();
                     if (ccnumber.isPresent()){
-                        System.out.println("Your card number is registered as : " + ccnumber.get());
+                        Alert alert3 = new Alert(Alert.AlertType.INFORMATION);
+                        alert3.setTitle("Information");
+                        alert3.setHeaderText("Payment Accepted");
+                        alert3.setContentText("Your credit card payment with card " + ccnumber.get() + " has been accepted !");
+                        alert3.showAndWait();
                     }
 
                 } else {

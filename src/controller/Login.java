@@ -10,7 +10,10 @@ import model.entity.User;
 import model.manager.LoginManager;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.sql.SQLException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Login extends Controller
 {
@@ -40,6 +43,23 @@ public class Login extends Controller
         No security yet, everything is in plain text
          */
         String password = passwordField.getText();
+
+        //password
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(password.getBytes());
+            byte[] messageDigestMD5 = messageDigest.digest();
+            StringBuffer stringBuffer = new StringBuffer();
+            for (byte bytes : messageDigestMD5) {
+                stringBuffer.append(String.format("%02x", bytes & 0xff));
+            }
+            password = stringBuffer.toString();
+        } catch (NoSuchAlgorithmException exception) {
+            // TODO Auto-generated catch block
+            exception.printStackTrace();
+        }
+
         if(emailField.getText().trim().isEmpty() || passwordField.getText().trim().isEmpty())
         {
             errorLabel.setText("Invalid credentials.");

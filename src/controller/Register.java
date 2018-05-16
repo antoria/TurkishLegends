@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import model.manager.LoginManager;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class Register extends Controller
@@ -47,6 +49,25 @@ public class Register extends Controller
         String lastName = lastNameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
+
+        //hashage
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(password.getBytes());
+            byte[] messageDigestMD5 = messageDigest.digest();
+            StringBuffer stringBuffer = new StringBuffer();
+            for (byte bytes : messageDigestMD5) {
+                stringBuffer.append(String.format("%02x", bytes & 0xff));
+            }
+            System.out.println("data:" + password);
+            System.out.println("digestedMD5(hex):" + stringBuffer.toString());
+            password = stringBuffer.toString();
+        } catch (NoSuchAlgorithmException exception) {
+            // TODO Auto-generated catch block
+            exception.printStackTrace();
+        }
+
         String phone = phoneField.getText();
         String address = addressField.getText();
 
@@ -95,14 +116,14 @@ public class Register extends Controller
             correctInfo = false;
         }
 
-        if(password.length() > 25 || password.trim().isEmpty())
+        if(password.length() > 50 || password.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {
-                errorLabel.setText("Password must be between 1 to 25 characters long.");
+                errorLabel.setText("Password must be between 1 to 50 characters long.");
             }else
             {
-                errorLabel.setText(errorLabel.getText() + "\nPassword must be between 1 to 25 characters long.");
+                errorLabel.setText(errorLabel.getText() + "\nPassword must be between 1 to 50 characters long.");
             }
 
             correctInfo = false;

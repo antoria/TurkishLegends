@@ -17,6 +17,7 @@ public class LoginManager extends Manager
         query += " WHERE email = ?";
         query += " AND password = ?";
 
+
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setString(1, email);
         prepare.setString(2, password);
