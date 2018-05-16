@@ -35,6 +35,7 @@ public class RecipeManager extends Manager
             r.setVegetable1(im.find(result.getInt("vegetable1_id")));
             r.setVegetable2(im.find(result.getInt("vegetable2_id")));
             r.setVegetable3(im.find(result.getInt("vegetable3_id")));
+            r.setPrice(r.getBread().getPrice() + r.getMeat().getPrice() + r.getSauce().getPrice() +r.getVegetable1().getPrice()+r.getVegetable2().getPrice()+r.getVegetable3().getPrice());
         }
 
 

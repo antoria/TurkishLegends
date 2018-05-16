@@ -4,8 +4,10 @@ public class Recipe
 {
     private int id;
     private Ingredient bread, meat, sauce, vegetable1, vegetable2, vegetable3;
+    private double price;
 
     public Recipe(){}
+
 
     public Recipe(int id, Ingredient bread, Ingredient meat, Ingredient sauce, Ingredient vegetable1, Ingredient vegetable2, Ingredient vegetable3) {
         this.id = id;
@@ -15,6 +17,7 @@ public class Recipe
         this.vegetable1 = vegetable1;
         this.vegetable2 = vegetable2;
         this.vegetable3 = vegetable3;
+        this.price = bread.getPrice() + meat.getPrice() + sauce.getPrice() + vegetable1.getPrice() + vegetable2.getPrice() + vegetable3.getPrice();
     }
 
     public int getId() {
@@ -71,5 +74,11 @@ public class Recipe
 
     public void setVegetable3(Ingredient vegetable3) {
         this.vegetable3 = vegetable3;
+    }
+
+    public double getPrice() {return price; }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

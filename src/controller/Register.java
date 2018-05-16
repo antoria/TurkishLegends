@@ -56,7 +56,7 @@ public class Register extends Controller
         /*
         Verifying the correctness of the information (length, format...)
          */
-        if(firstName.length() > 25 || firstName.length() < 2)
+        if(firstName.length() > 25 || firstName.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {
@@ -69,11 +69,11 @@ public class Register extends Controller
             correctInfo = false;
         }
 
-        if(lastName.length() > 25 || lastName.length() < 2)
+        if(lastName.length() > 25 || lastName.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {
-                errorLabel.setText("Last name must be between 2 to 25 characters long.");
+                errorLabel.setText("Last name must be between 1 to 25 characters long.");
             }else
             {
                 errorLabel.setText(errorLabel.getText() + "\nLast name must be between 2 to 25 characters long.");
@@ -82,11 +82,11 @@ public class Register extends Controller
             correctInfo = false;
         }
 
-        if(email.length() > 50 || email.length() < 7 )
+        if(email.length() > 50 || email.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {
-                errorLabel.setText("Email must be between 6 to 50 characters long");
+                errorLabel.setText("Email must be between 1 to 50 characters long");
             }else
             {
                 errorLabel.setText(errorLabel.getText() + "\nEmail must be between 6 to 50 characters long.");
@@ -95,7 +95,7 @@ public class Register extends Controller
             correctInfo = false;
         }
 
-        if(password.length() > 25 || password.length() < 1)
+        if(password.length() > 25 || password.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {
@@ -108,7 +108,7 @@ public class Register extends Controller
             correctInfo = false;
         }
 
-        if(phone.length() > 20)
+        if(phone.length() > 20 || phone.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {
@@ -121,7 +121,7 @@ public class Register extends Controller
             correctInfo = false;
         }
 
-        if(address.length() > 50)
+        if(address.length() > 50 || address.trim().isEmpty())
         {
             if(errorLabel.getText().equals(""))
             {

@@ -59,6 +59,9 @@ public class IngredientManager extends Manager
                 i.setId(result.getInt("id"));
                 i.setName(result.getString("name"));
                 i.setPrice(result.getDouble("price"));
+                System.out.println(result.getDouble("price"));
+                System.out.println(i.getPrice());
+                System.out.println("---------------------");
                 i.setImage_path(result.getString("image_path"));
                 i.setType(result.getInt("type"));
 

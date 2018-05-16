@@ -8,8 +8,8 @@ public class Db
 {
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/turkishlegends?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private static final String DB_USER = "test";
-    private static final String DB_PASSWORD = "test";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "";
 
     private static Connection CONNECTION = null;
 

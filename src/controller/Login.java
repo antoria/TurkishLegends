@@ -40,24 +40,27 @@ public class Login extends Controller
         No security yet, everything is in plain text
          */
         String password = passwordField.getText();
-        LoginManager lm = new LoginManager();
+        if(emailField.getText().trim().isEmpty() || passwordField.getText().trim().isEmpty())
+        {
+            errorLabel.setText("Invalid credentials.");
+        }
+        else
+            {
+            LoginManager lm = new LoginManager();
         /*
         Try to log in
          */
-        CURRENT_USER = lm.login(email, password);
-        if(CURRENT_USER != null)
-        {
-            if(CURRENT_USER.getClass().getSimpleName().equals("Customer"))
-            {
-                switchStage(event, "/view/customer.fxml");
-            }else
-            {
-                switchStage(event, "/view/staff.fxml");
-            }
+            CURRENT_USER = lm.login(email, password);
+            if (CURRENT_USER != null) {
+                if (CURRENT_USER.getClass().getSimpleName().equals("Customer")) {
+                    switchStage(event, "/view/customer.fxml");
+                } else {
+                    switchStage(event, "/view/staff.fxml");
+                }
 
-        }else
-        {
-            errorLabel.setText("Invalid credentials.");
+            } else {
+                errorLabel.setText("Invalid credentials.");
+            }
         }
     }
 

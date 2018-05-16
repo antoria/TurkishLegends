@@ -1,5 +1,7 @@
 package model.entity;
 
+import builder.KebabBuilder;
+
 public class Kebab
 {
     private int id;
@@ -8,10 +10,10 @@ public class Kebab
 
     public Kebab(){}
 
-    public Kebab(int id, String name, Recipe recipe) {
-        this.id = id;
-        this.name = name;
-        this.recipe = recipe;
+    public Kebab(KebabBuilder kb) {
+        this.id = kb.id;
+        this.name = kb.name;
+        this.recipe = kb.recipe;
     }
 
     public int getId() {

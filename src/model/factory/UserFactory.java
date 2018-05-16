@@ -11,6 +11,8 @@ public class UserFactory
      * @param type type of User to be returned
      * @return Customer or Staff
      */
+
+    //DESIGN PATTERN FACTORY
     public User getUser(String type)
     {
          if(type.equalsIgnoreCase("CUSTOMER"))
