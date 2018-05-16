@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class queryExecutor implements QueryGenerator
+public class MysqlQuery implements QueryGenerator
 {
     // returns the ID of the object inserted in the database
     @Override
