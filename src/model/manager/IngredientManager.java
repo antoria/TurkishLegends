@@ -12,8 +12,13 @@ public class IngredientManager extends Manager
 {
     public Ingredient find(int id) throws SQLException
     {
-        query = "SELECT * from Ingredient";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Ingredient", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);
@@ -31,7 +36,6 @@ public class IngredientManager extends Manager
             i.setType(result.getInt("type"));
         }
 
-
         prepare.close();
 
         return i;
@@ -39,7 +43,12 @@ public class IngredientManager extends Manager
 
     public HashMap<String, ArrayList<Ingredient>> findAll() throws SQLException
     {
-        query = "SELECT * FROM Ingredient";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+
+        query = queryGenerator.find(attributesList, "Ingredient", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
 

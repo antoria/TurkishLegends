@@ -6,14 +6,20 @@ import model.factory.UserFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerManager extends Manager
 {
 
    public Customer find(int id) throws SQLException
    {
-        query = "SELECT * from Customer NATURAL JOIN User";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Customer NATURAL JOIN User", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);
@@ -43,8 +49,13 @@ public class CustomerManager extends Manager
 
    public boolean exists(int id) throws SQLException
    {
-       query = "SELECT 1 from Customer";
-       query += " WHERE id = ?";
+       attributesList.clear();
+       attributesList.add("id");
+
+       conditionsList.clear();
+       conditionsList.add("id = ?");
+
+       query = queryGenerator.find(attributesList, "Customer", conditionsList);
 
        prepare = Db.getInstance().prepareStatement(query);
        prepare.setInt(1, id);

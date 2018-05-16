@@ -1,5 +1,9 @@
 package model;
 
+import model.factory.QueryGeneratorFactory;
+import model.query.QueryGenerator;
+
+import javax.management.Query;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

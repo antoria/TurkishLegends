@@ -14,8 +14,13 @@ public class KebabManager extends Manager
 {
     public Kebab find(int id) throws SQLException
     {
-        query = "SELECT * from Kebab";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Kebab", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);
@@ -28,7 +33,6 @@ public class KebabManager extends Manager
         {
             k.setId(result.getInt("id"));
             k.setName(result.getString("name"));
-            //k.setRecipe_id(result.getInt("recipe_id"));
 
             RecipeManager rm = new RecipeManager();
             k.setRecipe(rm.find(result.getInt("recipe_id")));
@@ -42,8 +46,13 @@ public class KebabManager extends Manager
 
     public ArrayList<Kebab> findAllByCurrentUser() throws SQLException
     {
-        query = "SELECT recipe_id from Customer_created_recipe";
-        query += " WHERE customer_id = ?";
+        attributesList.clear();
+        attributesList.add("recipe_id");
+
+        conditionsList.clear();
+        conditionsList.add("customer_id = ?");
+
+        query = queryGenerator.find(attributesList, "Customer_created_recipe", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, Login.CURRENT_USER.getId());
@@ -56,8 +65,13 @@ public class KebabManager extends Manager
         {
             do
             {
-                query = "SELECT * from Kebab";
-                query += " WHERE recipe_id = ?";
+                attributesList.clear();
+                attributesList.add("*");
+
+                conditionsList.clear();
+                conditionsList.add("recipe_id = ?");
+
+                query = queryGenerator.find(attributesList, "Kebab", conditionsList);
 
                 prepare = Db.getInstance().prepareStatement(query);
                 prepare.setInt(1, result.getInt("recipe_id"));
@@ -85,9 +99,11 @@ public class KebabManager extends Manager
 
     public boolean add(Kebab k) throws SQLException
     {
-        query = "INSERT INTO Kebab";
-        query += " (name, recipe_id) VALUES";
-        query += " (?,?)";
+        keysList.clear();
+        keysList.add("name");
+        keysList.add("recipe_id");
+
+        query = queryGenerator.add("Kebab", keysList);
 
         prepare = Db.getInstance().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         prepare.setString(1, k.getName());
@@ -117,8 +133,10 @@ public class KebabManager extends Manager
         RecipeManager rm = new RecipeManager();
         if(rm.deleteCustomerRecipeLink(k.getRecipe()))
         {
-            query = "DELETE FROM Kebab";
-            query += " WHERE id = ?";
+            conditionsList.clear();
+            conditionsList.add("id = ?");
+
+            query = queryGenerator.delete("Kebab", conditionsList);
 
             prepare = Db.getInstance().prepareStatement(query);
             prepare.setInt(1, k.getId());

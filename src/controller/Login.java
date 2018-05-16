@@ -39,9 +39,6 @@ public class Login extends Controller
     public void verifyCredentials(ActionEvent event) throws IOException, SQLException
     {
         String email = emailField.getText();
-        /*
-        No security yet, everything is in plain text
-         */
         String password = passwordField.getText();
 
         //password
@@ -50,11 +47,11 @@ public class Login extends Controller
             messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(password.getBytes());
             byte[] messageDigestMD5 = messageDigest.digest();
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (byte bytes : messageDigestMD5) {
-                stringBuffer.append(String.format("%02x", bytes & 0xff));
+                sb.append(String.format("%02x", bytes & 0xff));
             }
-            password = stringBuffer.toString();
+            password = sb.toString();
         } catch (NoSuchAlgorithmException exception) {
             // TODO Auto-generated catch block
             exception.printStackTrace();

@@ -1,100 +1,96 @@
 package model.query;
 
-import model.Db;
+import java.util.ArrayList;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-public class MysqlQuery implements QueryGenerator
+public class MysqlQuery extends AbstractQueryGenerator
 {
     // returns the ID of the object inserted in the database
     @Override
-    public int add(Object o, String table, HashMap<String,Object> args) throws SQLException {
-        String query = "insert into ";
-        query += table;
-        query += " (";
-        Iterator it = args.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry pair = (Map.Entry) it.next();
-            query += pair.getKey();
-            if(it.hasNext()){
-                query+= ",";
-            }
-        }
-        query+= ") values";
+    public String add(String table, ArrayList<String> keys)
+    {
+        // clear the object
+        query = new StringBuilder();
 
+        // INSERT INTO Table (a,b,c,d) VALUES (?,?,?,?)
+        query.append("INSERT INTO ");
+        query.append(table);
 
-        query += " (";
-        it = args.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry pair = (Map.Entry) it.next();
-            query += "?";
-            if(it.hasNext()){
-                query+= ",";
-            }
-        }
-        query+= ")";
+        query.append(" (");
+        controlClause(query, keys, ",");
 
+        query.append(") VALUES (");
 
-        PreparedStatement prepare = Db.getInstance().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        int index = 1;
-        it = args.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry pair = (Map.Entry) it.next();
-            switch (pair.getValue().getClass().getSimpleName())
-            {
-                case "String":
-                    prepare.setString(index, (String)pair.getValue());
-                    break;
-                case "int":
-                    prepare.setInt(index, (int)pair.getValue());
-                    break;
-                case "Double":
-                    prepare.setDouble(index, (Double)pair.getValue());
-                    break;
-                default: break;
-            }
-            index++;
-        }
-
-        int rowsUpdated = prepare.executeUpdate();
-        int generatedId = 0;
-
-        try(ResultSet generatedKeys = prepare.getGeneratedKeys())
+        int i = 0;
+        int numberOfKeys = keys.size();
+        while(i < numberOfKeys)
         {
-            if(generatedKeys.next())
-            {
-                generatedId = generatedKeys.getInt(1);
-            }else
-            {
-                throw new SQLException("Failed to retrieve auto-generated ID.");
-            }
+            query.append("?");
+            i++;
+            if(i != numberOfKeys) query.append(",");
         }
 
-        prepare.close();
-        return generatedId;
+        query.append(")");
+
+        return query.toString();
     };
 
     @Override
-    public boolean remove()
+    public String delete(String table, ArrayList<String> conditions)
     {
-        return true;
+        query = new StringBuilder();
+
+        // DELETE FROM Table WHERE x = y AND w = z
+        query.append("DELETE FROM ");
+        query.append(table);
+
+        if(conditions.size() > 0)
+        {
+            query.append(" WHERE ");
+            controlClause(query, conditions, " AND ");
+        }
+
+        return query.toString();
     };
 
     @Override
-    public boolean update()
+    public String update(String table, ArrayList<String> updates, ArrayList<String> conditions)
     {
-        return true;
+        query = new StringBuilder();
+
+        // UPDATE Table SET field1 = value1, field2 = value2 WHERE x = y and w = z;
+        query.append("UPDATE ");
+        query.append(table);
+
+        query.append(" SET ");
+        controlClause(query, updates, ", ");
+
+        if(conditions.size() > 0)
+        {
+            query.append(" WHERE ");
+            controlClause(query, conditions, " AND ");
+        }
+
+        return query.toString();
     };
 
     @Override
-    public boolean find()
+    public String find(ArrayList<String> attributes, String table, ArrayList<String> conditions)
     {
-        return true;
+        query = new StringBuilder();
+
+        // SELECT a FROM Table WHERE x = y and w = z
+        query.append("SELECT ");
+        controlClause(query, attributes, ", ");
+
+        query.append(" FROM ");
+        query.append(table);
+
+        if(conditions.size() > 0)
+        {
+            query.append(" WHERE ");
+            controlClause(query, conditions, " AND ");
+        }
+
+        return query.toString();
     };
 }

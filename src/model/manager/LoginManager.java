@@ -11,16 +11,20 @@ import java.sql.Statement;
 public class LoginManager extends Manager
 {
 
-    public User login(String email, String password) throws SQLException
+    public User login(String email, String hashedPassword) throws SQLException
     {
-        query = "SELECT * from User";
-        query += " WHERE email = ?";
-        query += " AND password = ?";
+        attributesList.clear();
+        attributesList.add("*");
 
+        conditionsList.clear();
+        conditionsList.add("email = ?");
+        conditionsList.add("password = ?");
+
+        query = queryGenerator.find(attributesList, "User", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setString(1, email);
-        prepare.setString(2, password);
+        prepare.setString(2, hashedPassword);
 
         ResultSet result = prepare.executeQuery();
 
@@ -48,9 +52,13 @@ public class LoginManager extends Manager
 
     public boolean register(String firstName, String lastName, String email, String password, String phone, String address) throws SQLException
     {
-        query = "INSERT INTO User";
-        query += " (firstName, lastName, email, password) VALUES";
-        query += " (?,?,?,?)";
+        keysList.clear();
+        keysList.add("firstName");
+        keysList.add("lastName");
+        keysList.add("email");
+        keysList.add("password");
+
+        query = queryGenerator.add("User", keysList);
 
         prepare = Db.getInstance().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         prepare.setString(1, firstName);
@@ -79,9 +87,12 @@ public class LoginManager extends Manager
 
         if(generatedId != 0)
         {
-            query = "INSERT INTO Customer";
-            query += " (id, phone, address) VALUES";
-            query += " (?,?,?)";
+            keysList.clear();
+            keysList.add("id");
+            keysList.add("phone");
+            keysList.add("address");
+
+            query = queryGenerator.add("Customer", keysList);
 
             prepare = Db.getInstance().prepareStatement(query);
             prepare.setInt(1, generatedId);

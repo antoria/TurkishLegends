@@ -34,16 +34,6 @@ CREATE TABLE `customer` (
   `address` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `customer`
---
-
-INSERT INTO `customer` (`id`, `phone`, `address`) VALUES
-(2, '0659388869', '34 jonquille street'),
-(3, '0123456789', 'who cares'),
-(6, '06', 'evooo lol'),
-(7, '06', 'evo !');
-
 -- --------------------------------------------------------
 
 --
@@ -55,14 +45,6 @@ CREATE TABLE `customer_created_recipe` (
   `recipe_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `customer_created_recipe`
---
-
-INSERT INTO `customer_created_recipe` (`customer_id`, `recipe_id`) VALUES
-(2, 28),
-(3, 25),
-(3, 26);
 
 -- --------------------------------------------------------
 
@@ -78,12 +60,6 @@ CREATE TABLE `demand` (
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 waiting, 1 being prepared, 2 ready, 3 being delivered, 4 completed'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `demand`
---
-
-INSERT INTO `demand` (`id`, `user_id`, `kebab_id`, `date`, `status`) VALUES
-(11, 3, 21, '2018-05-08', 4);
 
 -- --------------------------------------------------------
 
@@ -144,14 +120,6 @@ CREATE TABLE `kebab` (
   `recipe_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `kebab`
---
-
-INSERT INTO `kebab` (`id`, `name`, `recipe_id`) VALUES
-(21, 'Classic', 25),
-(22, 'Mayo', 26),
-(24, 'My legendary kebab', 28);
 
 -- --------------------------------------------------------
 
@@ -169,14 +137,6 @@ CREATE TABLE `recipe` (
   `vegetable3_id` int(11) DEFAULT '28'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `recipe`
---
-
-INSERT INTO `recipe` (`id`, `bread_id`, `meat_id`, `sauce_id`, `vegetable1_id`, `vegetable2_id`, `vegetable3_id`) VALUES
-(25, 1, 3, 21, 9, 10, 11),
-(26, 1, 8, 18, 9, 10, 11),
-(28, 1, 7, 22, 9, 10, 11);
 
 -- --------------------------------------------------------
 
@@ -188,13 +148,6 @@ CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
   `salary` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `staff`
---
-
-INSERT INTO `staff` (`id`, `salary`) VALUES
-(1, 0);
 
 -- --------------------------------------------------------
 
@@ -209,17 +162,6 @@ CREATE TABLE `user` (
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `user`
---
-
-INSERT INTO `user` (`id`, `firstName`, `lastName`, `email`, `password`) VALUES
-(1, 'Dorian', 'ANTOINET', 'dorian.antoinet@efrei.net', 'dodo'),
-(2, 'Sarah', 'EDELSTEIN', 'sarah@yahoo.com', 'eden'),
-(3, 'Rapid', 'Test', 'email', 'password'),
-(6, 'Victor', 'Delenclos', 'vd@efrei.net', 'victor'),
-(7, 'Aymeric', 'DAVIAS', 'test@test.fr', 'test');
 
 --
 -- Index pour les tables déchargées

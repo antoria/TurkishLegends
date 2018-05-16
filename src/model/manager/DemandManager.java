@@ -12,8 +12,13 @@ public class DemandManager extends Manager
 {
     public Demand find(int id) throws SQLException
     {
-        query = "SELECT * from Demand";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Demand", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);
@@ -43,7 +48,13 @@ public class DemandManager extends Manager
 
     public ArrayList<Demand> findAll() throws SQLException
     {
-        query = "SELECT * from Demand";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+
+        query = queryGenerator.find(attributesList, "Demand", conditionsList);
+
 
         prepare = Db.getInstance().prepareStatement(query);
 
@@ -78,9 +89,13 @@ public class DemandManager extends Manager
 
     public boolean add(Demand d) throws SQLException
     {
-        query = "INSERT INTO Demand";
-        query += " (user_id, kebab_id, date, status) VALUES";
-        query += " (?,?,?,?)";
+        keysList.clear();
+        keysList.add("user_id");
+        keysList.add("kebab_id");
+        keysList.add("date");
+        keysList.add("status");
+
+        query = queryGenerator.add("Demand", keysList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, Login.CURRENT_USER.getId());
@@ -96,9 +111,13 @@ public class DemandManager extends Manager
 
     public boolean updateStatus(Demand d) throws SQLException
     {
-        query = "UPDATE Demand";
-        query += " SET status = ?";
-        query += " WHERE id = ?";
+        updatesList.clear();
+        updatesList.add("status = ?");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.update("Demand", updatesList, conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, d.getStatus());
@@ -112,8 +131,10 @@ public class DemandManager extends Manager
 
     public boolean delete(Demand d) throws SQLException
     {
-        query = "DELETE FROM Demand";
-        query += " WHERE id = ?";
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.delete("Demand", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, d.getId());
@@ -126,9 +147,13 @@ public class DemandManager extends Manager
 
     public void updateNullKebab(int id) throws SQLException
     {
-        query = "UPDATE Demand";
-        query += " SET kebab_id = NULL";
-        query += " WHERE kebab_id = ?";
+        updatesList.clear();
+        updatesList.add("kebab_id = NULL");
+
+        conditionsList.clear();
+        conditionsList.add("kebab_id = ?");
+
+        query = queryGenerator.update("Demand", updatesList, conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);

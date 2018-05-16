@@ -14,8 +14,13 @@ public class RecipeManager extends Manager
 
     public Recipe find(int id) throws SQLException
     {
-        query = "SELECT * from Recipe";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Recipe", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);
@@ -46,9 +51,15 @@ public class RecipeManager extends Manager
 
     public boolean add(Recipe r) throws SQLException
     {
-        query = "INSERT INTO Recipe";
-        query += " (bread_id, meat_id, sauce_id, vegetable1_id, vegetable2_id, vegetable3_id) VALUES";
-        query += " (?,?,?,?,?,?)";
+        keysList.clear();
+        keysList.add("bread_id");
+        keysList.add("meat_id");
+        keysList.add("sauce_id");
+        keysList.add("vegetable1_id");
+        keysList.add("vegetable2_id");
+        keysList.add("vegetable3_id");
+
+        query = queryGenerator.add("Recipe", keysList);
 
         prepare = Db.getInstance().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -123,9 +134,11 @@ public class RecipeManager extends Manager
 
         if(generatedId != 0)
         {
-            query = "INSERT INTO Customer_created_recipe";
-            query += " (customer_id, recipe_id) VALUES";
-            query += " (?,?)";
+            keysList.clear();
+            keysList.add("customer_id");
+            keysList.add("recipe_id");
+
+            query = queryGenerator.add("Customer_created_recipe", keysList);
 
             prepare = Db.getInstance().prepareStatement(query);
             prepare.setInt(1, Login.CURRENT_USER.getId());
@@ -142,8 +155,10 @@ public class RecipeManager extends Manager
 
     public boolean delete(Recipe r) throws SQLException
     {
-        query = "DELETE FROM Recipe";
-        query += " WHERE id = ?";
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.delete("Recipe", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, r.getId());
@@ -155,9 +170,11 @@ public class RecipeManager extends Manager
 
     public boolean deleteCustomerRecipeLink(Recipe r) throws SQLException
     {
-        query = "DELETE FROM Customer_created_recipe";
-        query += " WHERE customer_id = ?";
-        query += " AND recipe_id = ?";
+        conditionsList.clear();
+        conditionsList.add("customer_id = ?");
+        conditionsList.add("recipe_id = ?");
+
+        query = queryGenerator.delete("Customer_created_recipe", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, Login.CURRENT_USER.getId());

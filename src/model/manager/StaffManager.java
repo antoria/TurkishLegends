@@ -12,8 +12,13 @@ public class StaffManager extends Manager
 
     public Staff find(int id) throws SQLException
     {
-        query = "SELECT * from Staff NATURAL JOIN User";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("*");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Staff NATURAL JOIN User", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);
@@ -41,8 +46,13 @@ public class StaffManager extends Manager
 
     public boolean exists(int id) throws SQLException
     {
-        query = "SELECT 1 from Staff";
-        query += " WHERE id = ?";
+        attributesList.clear();
+        attributesList.add("id");
+
+        conditionsList.clear();
+        conditionsList.add("id = ?");
+
+        query = queryGenerator.find(attributesList, "Staff", conditionsList);
 
         prepare = Db.getInstance().prepareStatement(query);
         prepare.setInt(1, id);

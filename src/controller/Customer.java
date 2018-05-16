@@ -155,7 +155,16 @@ public class Customer extends Controller implements Initializable
             r.setVegetable2(vegetable2);
             r.setVegetable3(vegetable3);
             r.setSauce(sauce);
-            r.setPrice(bread.getPrice() + meat.getPrice() + sauce.getPrice() + vegetable1.getPrice() + vegetable2.getPrice() + vegetable3.getPrice());
+
+            double totalPrice = 0;
+            if(bread != null) totalPrice += bread.getPrice();
+            if(meat != null) totalPrice += meat.getPrice();
+            if(sauce != null) totalPrice += sauce.getPrice();
+            if(vegetable1 != null) totalPrice += vegetable1.getPrice();
+            if(vegetable2 != null) totalPrice += vegetable2.getPrice();
+            if(vegetable3 != null) totalPrice += vegetable3.getPrice();
+
+            r.setPrice(totalPrice);
 
         /*
         Creating a Recipe to link to a Kebab object
@@ -287,18 +296,43 @@ public class Customer extends Controller implements Initializable
             Recipe r = k.getRecipe();
 
             StringBuilder sb = new StringBuilder();
-            sb.append(r.getBread().getName());
-            sb.append(", ");
-            sb.append(r.getMeat().getName());
-            sb.append(", ");
-            sb.append(r.getVegetable1().getName());
-            sb.append(", ");
-            sb.append(r.getVegetable2().getName());
-            sb.append(", ");
-            sb.append(r.getVegetable3().getName());
-            sb.append(", ");
-            sb.append(r.getSauce().getName());
-            sb.append(", ");
+
+            if(r.getBread() != null)
+            {
+                sb.append(r.getBread().getName());
+                sb.append(", ");
+            }
+
+            if(r.getMeat() != null)
+            {
+                sb.append(r.getMeat().getName());
+                sb.append(", ");
+            }
+
+            if(r.getVegetable1() != null)
+            {
+                sb.append(r.getVegetable1().getName());
+                sb.append(", ");
+            }
+
+            if(r.getVegetable2() != null)
+            {
+                sb.append(r.getVegetable2().getName());
+                sb.append(", ");
+            }
+
+            if(r.getVegetable3() != null)
+            {
+                sb.append(r.getVegetable3().getName());
+                sb.append(", ");
+            }
+
+            if(r.getSauce() != null)
+            {
+                sb.append(r.getSauce().getName());
+                sb.append(", ");
+            }
+
             sb.append(r.getPrice());
             sb.append(" Euros");
 

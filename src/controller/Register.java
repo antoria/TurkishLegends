@@ -60,8 +60,6 @@ public class Register extends Controller
             for (byte bytes : messageDigestMD5) {
                 stringBuffer.append(String.format("%02x", bytes & 0xff));
             }
-            System.out.println("data:" + password);
-            System.out.println("digestedMD5(hex):" + stringBuffer.toString());
             password = stringBuffer.toString();
         } catch (NoSuchAlgorithmException exception) {
             // TODO Auto-generated catch block
