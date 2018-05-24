@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 08 mai 2018 à 20:33
--- Version du serveur :  10.1.29-MariaDB
--- Version de PHP :  7.2.0
+-- Généré le :  jeu. 24 mai 2018 à 18:00
+-- Version du serveur :  10.1.32-MariaDB
+-- Version de PHP :  7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -34,6 +34,13 @@ CREATE TABLE `customer` (
   `address` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `customer`
+--
+
+INSERT INTO `customer` (`id`, `phone`, `address`) VALUES
+(20, '0123456789', 'Evo');
+
 -- --------------------------------------------------------
 
 --
@@ -44,7 +51,6 @@ CREATE TABLE `customer_created_recipe` (
   `customer_id` int(11) NOT NULL,
   `recipe_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 -- --------------------------------------------------------
 
@@ -60,6 +66,12 @@ CREATE TABLE `demand` (
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 waiting, 1 being prepared, 2 ready, 3 being delivered, 4 completed'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `demand`
+--
+
+INSERT INTO `demand` (`id`, `user_id`, `kebab_id`, `date`, `status`) VALUES
+(37, 20, NULL, '2018-05-24', 0);
 
 -- --------------------------------------------------------
 
@@ -80,30 +92,30 @@ CREATE TABLE `ingredient` (
 --
 
 INSERT INTO `ingredient` (`id`, `name`, `price`, `image_path`, `type`) VALUES
-(1, 'Pita', 0, NULL, 0),
-(2, 'Dürüm', 0, NULL, 0),
-(3, 'Lamb', 0, NULL, 1),
-(4, 'Sheep', 0, NULL, 1),
-(5, 'Veal', 0, NULL, 1),
-(6, 'Turkey', 0, NULL, 1),
-(7, 'Beef', 0, NULL, 1),
-(8, 'Veal - Turkey', 0, NULL, 1),
-(9, 'Onion', 0, NULL, 2),
-(10, 'Salad', 0, NULL, 2),
-(11, 'Tomato', 0, NULL, 2),
-(12, 'Red pepper', 0, NULL, 2),
-(13, 'Carrot', 0, NULL, 2),
-(14, 'Green pepper', 0, NULL, 2),
-(16, 'Curry', 0, NULL, 3),
-(17, 'Pepper', 0, NULL, 3),
-(18, 'Mayonnaise', 0, NULL, 3),
-(19, 'Ketchup', 0, NULL, 3),
-(20, 'White', 0, NULL, 3),
-(21, 'Samurai', 0, NULL, 3),
-(22, 'Bearnaise', 0, NULL, 3),
-(23, 'Harissa', 0, NULL, 3),
-(24, 'Barbecue', 0, NULL, 3),
-(25, 'Honey', 0, NULL, 3),
+(1, 'Pita', 1.3, NULL, 0),
+(2, 'Dürüm', 1.5, NULL, 0),
+(3, 'Lamb', 1, NULL, 1),
+(4, 'Sheep', 1.3, NULL, 1),
+(5, 'Veal', 1.5, NULL, 1),
+(6, 'Turkey', 0.8, NULL, 1),
+(7, 'Beef', 2, NULL, 1),
+(8, 'Veal - Turkey', 1.2, NULL, 1),
+(9, 'Onion', 0.5, NULL, 2),
+(10, 'Salad', 0.7, NULL, 2),
+(11, 'Tomato', 0.8, NULL, 2),
+(12, 'Red pepper', 1, NULL, 2),
+(13, 'Carrot', 0.5, NULL, 2),
+(14, 'Green pepper', 1, NULL, 2),
+(16, 'Curry', 1.6, NULL, 3),
+(17, 'Pepper', 0.5, NULL, 3),
+(18, 'Mayonnaise', 0.5, NULL, 3),
+(19, 'Ketchup', 0.5, NULL, 3),
+(20, 'White', 0.8, NULL, 3),
+(21, 'Samurai', 1, NULL, 3),
+(22, 'Bearnaise', 1.2, NULL, 3),
+(23, 'Harissa', 1.2, NULL, 3),
+(24, 'Barbecue', 1, NULL, 3),
+(25, 'Honey', 3, NULL, 3),
 (27, 'No meat', 0, NULL, 1),
 (28, 'No vegetable', 0, NULL, 2),
 (29, 'No sauce', 0, NULL, 3);
@@ -120,6 +132,17 @@ CREATE TABLE `kebab` (
   `recipe_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `kebab`
+--
+
+INSERT INTO `kebab` (`id`, `name`, `recipe_id`) VALUES
+(24, 'My legendary kebab', 28),
+(38, 'KebabTest', 42),
+(39, 'dzdz', 43),
+(40, 'Kebib', 44),
+(42, 'KebabMouloud', 46),
+(43, 'KebabTest', 47);
 
 -- --------------------------------------------------------
 
@@ -137,6 +160,17 @@ CREATE TABLE `recipe` (
   `vegetable3_id` int(11) DEFAULT '28'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `recipe`
+--
+
+INSERT INTO `recipe` (`id`, `bread_id`, `meat_id`, `sauce_id`, `vegetable1_id`, `vegetable2_id`, `vegetable3_id`) VALUES
+(28, 1, 7, 22, 9, 10, 11),
+(42, 2, 5, 17, 10, 11, 10),
+(43, 2, 4, 19, 9, 11, 11),
+(44, 2, 5, 21, 10, 10, 13),
+(46, 2, 6, 29, 10, 10, 28),
+(47, 2, 4, 29, 10, 28, 28);
 
 -- --------------------------------------------------------
 
@@ -148,6 +182,13 @@ CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
   `salary` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `staff`
+--
+
+INSERT INTO `staff` (`id`, `salary`) VALUES
+(17, 1);
 
 -- --------------------------------------------------------
 
@@ -162,6 +203,14 @@ CREATE TABLE `user` (
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `firstName`, `lastName`, `email`, `password`) VALUES
+(17, 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3'),
+(20, 'customer', 'customer', 'custom@er', '91ec1f9324753048c0096d036a694f86');
 
 --
 -- Index pour les tables déchargées
@@ -235,7 +284,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `demand`
 --
 ALTER TABLE `demand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT pour la table `ingredient`
@@ -247,19 +296,19 @@ ALTER TABLE `ingredient`
 -- AUTO_INCREMENT pour la table `kebab`
 --
 ALTER TABLE `kebab`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT pour la table `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Contraintes pour les tables déchargées
